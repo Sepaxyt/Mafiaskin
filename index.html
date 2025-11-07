@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Finder - Sepax YT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --light: #f5f5f5;
+            --gray: #2d2d2d;
+            --accent: #ff4081;
+            --success: #4caf50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+
+        .powered-by {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .powered-by span {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .search-container {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 15px 20px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .search-box button {
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: none;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-box button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 17, 203, 0.4);
+        }
+
+        .instructions {
+            text-align: center;
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .results-container {
+            background: rgba(30, 30, 30, 0.7);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: none;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .results-count {
+            font-size: 1.1rem;
+            color: #aaa;
+        }
+
+        .copy-all {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .copy-all:hover {
+            background: #3d8b40;
+        }
+
+        .skin-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .skin-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .skin-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .skin-list::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .skin-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            border-left: 3px solid var(--primary);
+        }
+
+        .skin-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .skin-id {
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .skin-name {
+            color: #ddd;
+            margin-bottom: 10px;
+        }
+
+        .skin-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 30px;
+            color: #aaa;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #aaa;
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 20px;
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            color: #aaa;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .skin-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .results-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+    <div class="container">
+        <header>
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="https://i.ibb.co/ynJqD8QX/IMG-20251107-052130-212.jpg" alt="Sepax YT Logo" onerror="this.style.display='none'; this.parentNode.innerHTML='SYT';">
+                </div>
+                <div>
+                    <h1>Skin Finder</h1>
+                    <div class="subtitle">Find any skin ID instantly</div>
+                </div>
+            </div>
+            <div class="powered-by">Powered by <span>Mafia Developer</span></div>
+        </header>
+
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Type skin name or ID...">
+                <button id="searchBtn"><i class="fas fa-search"></i> Find</button>
+            </div>
+            <div class="instructions">
+                Just enter the name of the clothes whose ID you want and press the find button.
+            </div>
+        </div>
+
+        <div class="results-container" id="resultsContainer">
+            <div class="results-header">
+                <div class="results-title">Search Results</div>
+                <div class="results-count" id="resultsCount">0 results</div>
+                <button class="copy-all" id="copyAllBtn">Copy All</button>
+            </div>
+            <div class="skin-list" id="skinList">
+                <div class="loading" id="loadingMessage">
+                    <i class="fas fa-spinner fa-spin"></i> Loading skin data from SKINID.txt...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Skin Finder. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://t.me/SrcLeakerVip" target="_blank"><i class="fab fa-telegram"></i> @SrcLeakerVip</a>
+                <a href="#"><i class="fab fa-youtube"></i> Sepax YT</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Global variable to store all skin data
+        let allSkinData = [];
+
+        // Function to load skin data from SKINID.txt
+        async function loadSkinData() {
+            try {
+                const response = await fetch('SKINID.txt');
+                if (!response.ok) {
+                    throw new Error('SKINID.txt file not found');
+                }
+                
+                const text = await response.text();
+                const lines = text.split('\n');
+                
+                allSkinData = [];
+                let loadedCount = 0;
+                
+                lines.forEach(line => {
+                    // Skip empty lines
+                    if (!line.trim()) return;
+                    
+                    // Parse the line to extract ID and name
+                    // Expected format: "19303  1529241 | Login Pack 2"
+                    const parts = line.split('|');
+                    if (parts.length >= 2) {
+                        const idPart = parts[0].trim();
+                        const name = parts[1].trim();
+                        
+                        // Extract the skin ID (the number after spaces)
+                        const idMatch = idPart.match(/\d+$/);
+                        if (idMatch) {
+                            const id = idMatch[0];
+                            allSkinData.push({ id, name });
+                            loadedCount++;
+                        }
+                    }
+                });
+                
+                document.getElementById('loadingMessage').innerHTML = 
+                    `<i class="fas fa-check"></i> Successfully loaded ${loadedCount} skins from SKINID.txt`;
+                
+                console.log(`Loaded ${loadedCount} skins from SKINID.txt`);
+                
+            } catch (error) {
+                console.error('Error loading skin data:', error);
+                document.getElementById('loadingMessage').innerHTML = 
+                    `<div class="error-message">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        Error: ${error.message}<br>
+                        Please make sure SKINID.txt is in the same directory as this HTML file.
+                    </div>`;
+            }
+        }
+
+        // Function to search skins
+        function searchSkins(query) {
+            if (!query.trim()) {
+                document.getElementById('resultsContainer').style.display = 'none';
+                return;
+            }
+
+            const results = allSkinData.filter(skin => 
+                skin.name.toLowerCase().includes(query.toLowerCase()) || 
+                skin.id.includes(query)
+            );
+
+            displayResults(results);
+        }
+
+        // Function to display search results
+        function displayResults(results) {
+            const skinList = document.getElementById('skinList');
+            const resultsCount = document.getElementById('resultsCount');
+            const resultsContainer = document.getElementById('resultsContainer');
+
+            if (results.length === 0) {
+                skinList.innerHTML = '<div class="no-results">No skins found matching your search.</div>';
+            } else {
+                skinList.innerHTML = results.map(skin => `
+                    <div class="skin-item">
+                        <div class="skin-id">${skin.id}</div>
+                        <div class="skin-name">${skin.name}</div>
+                        <div class="skin-actions">
+                            <button class="copy-btn" data-id="${skin.id}" data-name="${skin.name}">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            resultsCount.textContent = `${results.length} results`;
+            resultsContainer.style.display = 'block';
+
+            // Add event listeners to copy buttons
+            document.querySelectorAll('.copy-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const name = this.getAttribute('data-name');
+                    copyToClipboard(`${id} | ${name}`);
+                    
+                    // Visual feedback
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                    }, 2000);
+                });
+            });
+        }
+
+        // Function to copy text to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                console.log('Text copied to clipboard');
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            });
+        }
+
+        // Function to copy all results
+        function copyAllResults() {
+            const skinItems = document.querySelectorAll('.skin-item');
+            if (skinItems.length === 0) return;
+
+            let allText = '';
+            skinItems.forEach(item => {
+                const id = item.querySelector('.skin-id').textContent;
+                const name = item.querySelector('.skin-name').textContent;
+                allText += `${id} | ${name}\n`;
+            });
+
+            copyToClipboard(allText);
+            
+            // Visual feedback
+            const copyAllBtn = document.getElementById('copyAllBtn');
+            const originalText = copyAllBtn.textContent;
+            copyAllBtn.innerHTML = '<i class="fas fa-check"></i> All Copied!';
+            setTimeout(() => {
+                copyAllBtn.innerHTML = originalText;
+            }, 2000);
+        }
+
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.getElementById('themeToggle');
+            const icon = themeToggle.querySelector('i');
+            
+            if (body.classList.contains('light-theme')) {
+                body.classList.remove('light-theme');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            } else {
+                body.classList.add('light-theme');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load skin data from external file
+            loadSkinData();
+            
+            // Set up event listeners
+            document.getElementById('searchBtn').addEventListener('click', function() {
+                const query = document.getElementById('searchInput').value;
+                searchSkins(query);
+            });
+            
+            document.getElementById('searchInput').addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    const query = this.value;
+                    searchSkins(query);
+                }
+            });
+            
+            document.getElementById('copyAllBtn').addEventListener('click', copyAllResults);
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            
+            // Show results container when there's a search query on page load (from URL parameter)
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('q');
+            if (searchQuery) {
+                document.getElementById('searchInput').value = searchQuery;
+                // Wait a bit for data to load then search
+                setTimeout(() => searchSkins(searchQuery), 500);
+            }
+        });
+
+        // Add light theme styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .light-theme {
+                --dark: #f0f0f0;
+                --darker: #e0e0e0;
+                --light: #333;
+                --gray: #ddd;
+            }
+            
+            .light-theme body {
+                background: linear-gradient(135deg, var(--darker), var(--dark));
+                color: var(--light);
+            }
+            
+            .light-theme .search-container,
+            .light-theme .results-container {
+                background: rgba(255, 255, 255, 0.8);
+                color: #333;
+            }
+            
+            .light-theme .skin-item {
+                background: rgba(0, 0, 0, 0.05);
+                color: #333;
+            }
+            
+            .light-theme .skin-name {
+                color: #555;
+            }
+            
+            .light-theme .search-box input {
+                background: rgba(0, 0, 0, 0.1);
+                color: #333;
+            }
+            
+            .light-theme .instructions {
+                color: #666;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
